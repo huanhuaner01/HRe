@@ -44,18 +44,43 @@ object RealmManager {
     }
 
 
-
-    open fun<E : RealmModel> delete( clazz:Class<E>, key:String,value:Any,listener: RealmListener?=null){
-//       if()
+    /**
+     * @param[value] 接受以下类型的值，其他类型将抛出异常：
+     * * [Boolean]
+     * * [Short]
+     * * [Int]
+     * * [Long]
+     * * [Float]
+     * * [Double]
+     * * [ByteArray]
+     * * [Date]
+     * * [String]
+     * @param[caseSensitive] 仅当 [value] 为 `String` 时有效，指示比较时是否大小写敏感，默认为 `true`。
+     */
+    fun <E : RealmModel> delete(clazz: Class<E>, key: String, value: Any, caseSensitive: Boolean = true, listener: RealmListener? = null) {
         val realm = Realm.getDefaultInstance()
-        realm.executeTransactionAsync({
-            realm ->
-          /*  val item = realm.where(clazz).equalTo(key, value)
-                    .findFirst()
-            if (item != null) {
-                item!!.deleteFromRealm()
-            }
-*/
+        realm.executeTransactionAsync({ realmDb ->
+            val item = realmDb.where(clazz).run {
+                when (value) {
+                    is Boolean -> equalTo(key, value)
+                    is Short -> equalTo(key, value)
+                    is Int -> equalTo(key, value)
+                    is Long -> equalTo(key, value)
+                    is Float -> equalTo(key, value)
+                    is Double -> equalTo(key, value)
+                    is ByteArray -> equalTo(key, value)
+                    is Date -> equalTo(key, value)
+                    is String -> equalTo(key, value, if (caseSensitive) {
+                        Case.SENSITIVE
+                    } else {
+                        Case.INSENSITIVE
+                    })
+                    else -> throw IllegalArgumentException("Unknown type ${value::class.simpleName}")
+                }
+            }.findFirst()
+
+            item?.deleteFromRealm()
+
         }, {
             realm.close()
             listener?.onSuccess()
