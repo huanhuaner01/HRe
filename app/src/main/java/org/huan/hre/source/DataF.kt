@@ -13,3 +13,5 @@ data class BookListResp(val page:Int ,val countPage:Int,val books:ArrayList<Book
 data class Sort(val web:String,val text:String,val url:String) : Parcelable
 
 data class BookDetailResp(val book:Book,val chapterlist:ArrayList<Menu>)
+
+data class History(val bookName:String,val pathUrl:String,val time: Long,val web:String)

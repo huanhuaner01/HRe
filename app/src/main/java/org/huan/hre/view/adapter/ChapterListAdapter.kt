@@ -18,7 +18,7 @@ import org.huan.hre.source.Menu
 /**
  * 目录Adapter
  */
-class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<ChapterListAdapter.BaseHolder>(){
+class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<BaseViewHolder>(){
     companion object {
         const val TYPE_DETAIL = 0
         const val TYPE_CHAPTER = 1
@@ -30,7 +30,7 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<ChapterLi
         this.booDetail = items.book
         this.notifyDataSetChanged()
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         if(viewType == TYPE_DETAIL){
            return BookDetailViewHolder(LayoutInflater.from(mContext).inflate(R.layout.item_book_detail, parent, false))
         }
@@ -53,11 +53,11 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<ChapterLi
         return  TYPE_CHAPTER
     }
 
-    override fun onBindViewHolder(holder: BaseHolder, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         holder.onBind()
     }
 
-     inner class MenuViewHolder(itemView : View) :BaseHolder(itemView){
+     inner class MenuViewHolder(itemView : View) :BaseViewHolder(itemView){
         override fun onBind(){
             if(menus.size == 0) return
             var index  =  position-1
@@ -76,7 +76,7 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<ChapterLi
          }
     }
 
-    inner class BookDetailViewHolder(itemView : View) :BaseHolder(itemView){
+    inner class BookDetailViewHolder(itemView : View) :BaseViewHolder(itemView){
         override fun onBind(){
             if(booDetail==null)return
            itemView.tv_title.text = booDetail!!.title
@@ -88,8 +88,4 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<ChapterLi
         }
     }
 
-    abstract inner class BaseHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        abstract fun onBind()
-    }
 }

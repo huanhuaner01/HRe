@@ -11,6 +11,9 @@ import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_chapter_list.*
+import org.huan.hre.realm.HistoryRO
+import org.huan.hre.realm.RealmManager
+import org.huan.hre.source.Book
 import org.huan.hre.view.adapter.ChapterListAdapter
 import org.huan.hre.source.BookDetailResp
 import org.huan.hre.source.SourceFactory
@@ -36,6 +39,36 @@ class ChapterListActivity : AppCompatActivity() {
         sr_chapter.autoRefresh()
 
     }
+
+    private fun addHistory(book: Book){
+        val history = HistoryRO()
+        history.bookName = book.title
+        history.pathUrl = bookUrl
+        history.time = System.currentTimeMillis()
+        history.web = web
+        RealmManager
+                .insertOrUpdate(history)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<RealmManager.DBResult<Any>> {
+                    override fun onComplete() {
+
+                    }
+
+                    override fun onSubscribe(d: Disposable) {
+
+                    }
+
+                    override fun onNext(t: RealmManager.DBResult<Any>) {
+                      Log.i("huan","insert success！")
+                    }
+
+                    override fun onError(e: Throwable) {
+                    }
+
+                })
+    }
+
     private fun getChapterList(){
         SourceFactory.Create(web).getChapterList(bookUrl)
                 .subscribeOn(Schedulers.io())
@@ -53,6 +86,7 @@ class ChapterListActivity : AppCompatActivity() {
                     override fun onNext(t: BookDetailResp) {
 
                         mAdapter.addItems(t)
+                        addHistory(t.book)
                         sr_chapter.finishRefresh()
                     }
 

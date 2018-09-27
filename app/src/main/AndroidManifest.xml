@@ -29,7 +29,8 @@
         <activity android:name=".DetailActivity" />
         <activity android:name=".ChapterListActivity" />
         <activity android:name=".SearchActivity" />
-        <activity android:name=".SourceSelectActivity"></activity>
+        <activity android:name=".SourceSelectActivity" />
+        <activity android:name=".HistoryActivity"></activity>
     </application>
 
 </manifest>

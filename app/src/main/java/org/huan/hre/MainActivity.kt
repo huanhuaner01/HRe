@@ -13,10 +13,8 @@ import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import io.realm.Realm
-import io.realm.kotlin.createObject
-import io.realm.kotlin.where
 import kotlinx.android.synthetic.main.activity_main.*
-import org.huan.hre.realm.History
+import org.huan.hre.realm.HistoryRO
 import org.huan.hre.realm.RealmManager
 import org.huan.hre.view.adapter.MainFragmentPageAdapter
 import org.huan.hre.view.fragment.BookListFragment
@@ -33,28 +31,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-//        toolbar.setOnMenuItemClickListener(this)
         getSorts()
 
-        // Open the realm for the UI thread.
-        realm = Realm.getDefaultInstance()
-        // Delete all persons
-        // Using executeTransaction with a lambda reduces code size and makes it impossible
-        // to forget to commit the transaction.
-       /* realm.executeTransaction { realm ->
-            realm.deleteAll()
-        }*/
-        simP()
+//        realm = Realm.getDefaultInstance()
+
+//        simP()
     }
 
     private fun simP() {
 
-        val history = History()
+        val history = HistoryRO()
         history.bookName = "1111"
         history.pathUrl = "2222"
         history.time = System.currentTimeMillis()
         history.web = "www"
-        RealmManager.add(history)
+        RealmManager.insertOrUpdate(history)
     }
 
     override fun onDestroy() {
@@ -63,7 +54,7 @@ class MainActivity : AppCompatActivity() {
     }
    private fun initTab(tabs:List<Sort>){
        if(tabs.isEmpty())return
-       var fragments = mutableListOf<BookListFragment>()
+       val fragments = mutableListOf<BookListFragment>()
        for(item in tabs){
            fragments.add(BookListFragment.newInstance(item))
        }
@@ -72,7 +63,14 @@ class MainActivity : AppCompatActivity() {
    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        val searchItem = menu!!.findItem(R.id.menu_search)
+        val searchItem = menu?.findItem(R.id.menu_search)
+        val historyItem = menu?.findItem(R.id.menu_history)
+
+        historyItem?.setOnMenuItemClickListener {
+            onClickHistory()
+            return@setOnMenuItemClickListener true
+
+        }
         mSearchView = MenuItemCompat.getActionView(searchItem) as SearchView
         //通过MenuItem得到SearchView
 //        val mSearchView =  getActionView(searchItem)
@@ -101,7 +99,7 @@ class MainActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    override fun onMenuOpened(featureId: Int, menu: Menu?): Boolean {
+ /*   override fun onMenuOpened(featureId: Int, menu: Menu?): Boolean {
         if (menu != null) {
             if (menu::class.simpleName.equals("MenuBuilder", true)) {
                 try {
@@ -116,7 +114,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onMenuOpened(featureId, menu)
-    }
+    }*/
     private fun getSorts(){
          SourceFactory.Create(web).getSort()
            .subscribeOn(Schedulers.io())
@@ -150,6 +148,10 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
+    private fun onClickHistory(){
+        val intent = Intent(this,HistoryActivity::class.java)
+        startActivity(intent)
+    }
 
 
 }

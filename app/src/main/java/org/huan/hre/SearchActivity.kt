@@ -44,7 +44,7 @@ class SearchActivity : AppCompatActivity() {
                  .subscribe(object : Observer<BookListResp> { // 第三步：订阅
 
                      // 第二步：初始化Observer
-                     private var i: Int = 0
+
                      private var mDisposable: Disposable? = null
 
                      override fun onSubscribe(@NonNull d: Disposable) {
@@ -62,6 +62,7 @@ class SearchActivity : AppCompatActivity() {
                      }
 
                      override fun onError(@NonNull e: Throwable) {
+                         sr_search.finishRefresh()
                      }
 
                      override fun onComplete() {
@@ -75,7 +76,6 @@ class SearchActivity : AppCompatActivity() {
                 .subscribe(object : Observer<BookListResp> { // 第三步：订阅
 
                     // 第二步：初始化Observer
-                    private var i: Int = 0
                     private var mDisposable: Disposable? = null
 
                     override fun onSubscribe(@NonNull d: Disposable) {

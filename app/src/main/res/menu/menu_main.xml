@@ -3,17 +3,17 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
    <item
-        android:id="@+id/source"
+        android:id="@+id/menu_source"
         android:icon="@mipmap/ic_launcher"
         android:title="数据源"
        />
     <item
-        android:id="@+id/history"
+        android:id="@+id/menu_history"
         android:icon="@mipmap/ic_launcher"
         android:title="浏览历史"
         />
     <item
-        android:id="@+id/love"
+        android:id="@+id/menu_love"
         android:icon="@mipmap/ic_launcher"
         android:title="收藏"
         />
