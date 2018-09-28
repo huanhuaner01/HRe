@@ -23,12 +23,16 @@ class ChapterListActivity : AppCompatActivity() {
     private lateinit var mAdapter: ChapterListAdapter
     private lateinit var bookUrl:String
     private lateinit var web:String
+    private var title:String = ""
+    private var book:Book? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chapter_list)
         bookUrl = intent.getStringExtra("book_url")
         web = intent.getStringExtra("web")
+        title = intent.getStringExtra("title")
+        book = intent.getParcelableExtra("book")
         mAdapter = ChapterListAdapter(this)
         rv.layoutManager = LinearLayoutManager(this)
         rv.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
@@ -40,9 +44,9 @@ class ChapterListActivity : AppCompatActivity() {
 
     }
 
-    private fun addHistory(book: Book){
+    private fun addHistory(book: Book?=null){
         val history = HistoryRO()
-        history.bookName = book.title
+        history.bookName = title
         history.pathUrl = bookUrl
         history.time = System.currentTimeMillis()
         history.web = web
@@ -86,7 +90,7 @@ class ChapterListActivity : AppCompatActivity() {
                     override fun onNext(t: BookDetailResp) {
 
                         mAdapter.addItems(t)
-                        addHistory(t.book)
+                            addHistory(t.book)
                         sr_chapter.finishRefresh()
                     }
 

@@ -16,6 +16,7 @@ import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import org.huan.hre.realm.HistoryRO
 import org.huan.hre.realm.RealmManager
+import org.huan.hre.source.KanshugtangSource
 import org.huan.hre.view.adapter.MainFragmentPageAdapter
 import org.huan.hre.view.fragment.BookListFragment
 import org.huan.hre.source.Sort
@@ -24,7 +25,7 @@ import org.huan.hre.source.SourceFactory
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mSearchView: SearchView
-    private var web = "https://m.miaoshufang.com"
+    private var web = KanshugtangSource.BASE_URL
     private lateinit var realm: Realm
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

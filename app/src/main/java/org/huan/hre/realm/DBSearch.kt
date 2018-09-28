@@ -1,12 +1,9 @@
 package org.huan.hre.realm
 
 import io.reactivex.Observable
-import io.realm.Case
 import io.realm.Realm
-import io.realm.RealmModel
 import io.realm.Sort
 import org.huan.hre.source.History
-import java.sql.Date
 
 object DBSearch {
 

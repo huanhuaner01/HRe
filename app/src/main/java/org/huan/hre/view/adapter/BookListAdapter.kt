@@ -49,6 +49,8 @@ class BookListAdapter(val mContext: Context) : RecyclerView.Adapter<BookListAdap
                 val i = Intent(this@BookListAdapter.mContext, ChapterListActivity::class.java)
                 i.putExtra("book_url",book.url)
                 i.putExtra("web",book.web)
+                i.putExtra("title",book.title)
+                i.putExtra("content",book)
                 this@BookListAdapter.mContext.startActivity(i)
             })
         }

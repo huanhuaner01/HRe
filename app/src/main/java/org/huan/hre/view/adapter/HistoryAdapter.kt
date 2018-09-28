@@ -43,6 +43,7 @@ class HistoryAdapter (val mContext: Activity) : RecyclerView.Adapter<BaseViewHol
                 val i = Intent(this@HistoryAdapter.mContext, ChapterListActivity::class.java)
                 i.putExtra("book_url",data.pathUrl)
                 i.putExtra("web",data.web)
+                i.putExtra("title",data.bookName)
                 this@HistoryAdapter.mContext.startActivity(i)
             }
         }

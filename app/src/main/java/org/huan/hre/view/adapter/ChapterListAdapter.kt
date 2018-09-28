@@ -38,16 +38,16 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<BaseViewH
     }
 
     override fun getItemCount(): Int {
-        if(menus.size!=0){
-            return menus.size+1
+        return if(booDetail!=null){
+            menus.size+1
         }else{
-            return 0
+            menus.size
         }
 
     }
 
     override fun getItemViewType(position: Int): Int {
-        if(position == 0 && menus.size!=0) {
+        if(position == 0 && booDetail!=null) {
             return TYPE_DETAIL
         }
         return  TYPE_CHAPTER
