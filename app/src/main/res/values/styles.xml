@@ -17,6 +17,18 @@
         <item name="contentInsetStartWithNavigation">0dp</item>
     </style>
 
+    <!-- 设置Toolbar菜单文字的大小  -->
+    <style name="ToolbarTheme" parent="AppTheme.AppBarOverlay">
+        <item name="actionMenuTextColor">@android:color/white</item> <!--颜色-->
+        <item name="android:textSize">14sp</item> <!--字体大小-->
+    </style>
+
+    ---------------------
+    作者：木大白易
+    来源：CSDN
+    原文：https://blog.csdn.net/aiynmimi/article/details/68491608?utm_source=copy
+    版权声明：本文为博主原创文章，转载请附上博文链接！
+
     <!--Toolbar标题文字大小-->
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">15sp</item>

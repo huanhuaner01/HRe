@@ -9,9 +9,9 @@ import org.huan.hre.source.Sort
 /**
  * 首页分类ViewPager的适配器
  */
-class MainFragmentPageAdapter(fm: FragmentManager, fragments:List<BookListFragment>, sorts:List<Sort>) : FragmentPagerAdapter(fm) {
-    private var mFragments:List<BookListFragment>?=null
-    private var mSorts:List<Sort>?=null
+class MainFragmentPageAdapter(fm: FragmentManager, fragments:List<Fragment>, sorts:List<String>) : FragmentPagerAdapter(fm) {
+    private var mFragments:List<Fragment>?=null
+    private var mSorts:List<String>?=null
     init {
         mFragments = fragments
         mSorts = sorts
@@ -25,6 +25,6 @@ class MainFragmentPageAdapter(fm: FragmentManager, fragments:List<BookListFragme
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return mSorts!![position].text
+        return mSorts!![position]
     }
 }

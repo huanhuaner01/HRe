@@ -2,21 +2,8 @@
 <menu
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-   <item
-        android:id="@+id/menu_source"
-        android:icon="@mipmap/ic_launcher"
-        android:title="数据源"
-       />
-    <item
-        android:id="@+id/menu_history"
-        android:icon="@mipmap/ic_launcher"
-        android:title="浏览历史"
-        />
-    <item
-        android:id="@+id/menu_love"
-        android:icon="@mipmap/ic_launcher"
-        android:title="收藏"
-        />
+
+
     <item
         android:id="@+id/menu_search"
         android:orderInCategory="100"
@@ -24,5 +11,22 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always"
         />
-
+    <item
+        android:id="@+id/menu_history"
+        android:icon="@android:drawable/ic_menu_view"
+        android:title="历史"
+        app:showAsAction="always"
+        />
+    <group >
+    <item
+        android:id="@+id/menu_source_1"
+        android:icon="@mipmap/ic_launcher"
+        android:title="看书堂"
+        />
+        <item
+            android:id="@+id/menu_source_2"
+            android:icon="@mipmap/ic_launcher"
+            android:title="妙书房"
+            />
+    </group>
 </menu>

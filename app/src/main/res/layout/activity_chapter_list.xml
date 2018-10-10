@@ -8,6 +8,7 @@
     tools:context=".MainActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
+        app:theme="@style/ToolbarTheme"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
@@ -23,6 +24,9 @@
         android:id="@+id/rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarSize="10dp"
         />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 </LinearLayout>

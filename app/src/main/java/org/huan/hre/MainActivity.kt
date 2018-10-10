@@ -3,10 +3,12 @@ package org.huan.hre
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.SearchView
 import android.util.Log
 import android.view.Menu
+import android.view.MenuItem
 import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.NonNull
@@ -17,10 +19,12 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.huan.hre.realm.HistoryRO
 import org.huan.hre.realm.RealmManager
 import org.huan.hre.source.KanshugtangSource
+import org.huan.hre.source.MiaoShuFangSource
 import org.huan.hre.view.adapter.MainFragmentPageAdapter
 import org.huan.hre.view.fragment.BookListFragment
 import org.huan.hre.source.Sort
 import org.huan.hre.source.SourceFactory
+import org.huan.hre.view.fragment.LoveFragment
 
 
 class MainActivity : AppCompatActivity() {
@@ -39,27 +43,25 @@ class MainActivity : AppCompatActivity() {
 //        simP()
     }
 
-    private fun simP() {
-
-        val history = HistoryRO()
-        history.bookName = "1111"
-        history.pathUrl = "2222"
-        history.time = System.currentTimeMillis()
-        history.web = "www"
-        RealmManager.insertOrUpdate(history)
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item?.itemId ==R.id.home){
+            finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        realm.close() // Remember to close Realm when done.
-    }
    private fun initTab(tabs:List<Sort>){
        if(tabs.isEmpty())return
-       val fragments = mutableListOf<BookListFragment>()
+       val fragments = mutableListOf<Fragment>()
+       val titles = mutableListOf<String>()
+          fragments.add(LoveFragment.newInstance())
+       titles.add("收藏")
        for(item in tabs){
            fragments.add(BookListFragment.newInstance(item))
+           titles.add(item.text)
        }
-       vp_main.adapter = MainFragmentPageAdapter(supportFragmentManager, fragments, tabs)
+       vp_main.adapter = MainFragmentPageAdapter(supportFragmentManager, fragments, titles)
        tab_main.setupWithViewPager(vp_main)
    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,6 +73,17 @@ class MainActivity : AppCompatActivity() {
             onClickHistory()
             return@setOnMenuItemClickListener true
 
+        }
+        menu?.findItem(R.id.menu_source_1)?.setOnMenuItemClickListener {
+            web = KanshugtangSource.BASE_URL
+            getSorts()
+            return@setOnMenuItemClickListener true
+        }
+
+        menu?.findItem(R.id.menu_source_2)?.setOnMenuItemClickListener {
+            web = MiaoShuFangSource.BASE_URL
+            getSorts()
+            return@setOnMenuItemClickListener true
         }
         mSearchView = MenuItemCompat.getActionView(searchItem) as SearchView
         //通过MenuItem得到SearchView

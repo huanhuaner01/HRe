@@ -50,7 +50,7 @@ class BookListAdapter(val mContext: Context) : RecyclerView.Adapter<BookListAdap
                 i.putExtra("book_url",book.url)
                 i.putExtra("web",book.web)
                 i.putExtra("title",book.title)
-                i.putExtra("content",book)
+                i.putExtra("book",book)
                 this@BookListAdapter.mContext.startActivity(i)
             })
         }

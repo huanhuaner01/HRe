@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.item_book_detail.view.*
-import java.util.ArrayList
 import kotlinx.android.synthetic.main.item_chapter.view.*
 import org.huan.hre.DetailActivity
 import org.huan.hre.R
@@ -23,12 +22,16 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<BaseViewH
         const val TYPE_DETAIL = 0
         const val TYPE_CHAPTER = 1
     }
-    var menus = ArrayList<Menu>()
+    var menus = listOf<Menu>()
     private var booDetail : Book?=null
-    open fun addItems(items: BookDetailResp){
+     fun addItems(items: BookDetailResp){
         this.menus = items.chapterlist
         this.booDetail = items.book
         this.notifyDataSetChanged()
+    }
+    fun revered(){
+        menus = menus.reversed()
+        notifyDataSetChanged()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
         if(viewType == TYPE_DETAIL){
@@ -59,8 +62,8 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<BaseViewH
 
      inner class MenuViewHolder(itemView : View) :BaseViewHolder(itemView){
         override fun onBind(){
-            if(menus.size == 0) return
-            var index  =  position-1
+            if(menus.isEmpty()) return
+            var index  =  if(booDetail!=null)position-1 else position
             if(index <0){
                 index = 0
             }
@@ -79,12 +82,19 @@ class ChapterListAdapter(val mContext: Activity) :RecyclerView.Adapter<BaseViewH
     inner class BookDetailViewHolder(itemView : View) :BaseViewHolder(itemView){
         override fun onBind(){
             if(booDetail==null)return
-           itemView.tv_title.text = booDetail!!.title
+            itemView.tv_title.text = booDetail!!.title
             itemView.tv_author.text = booDetail!!.author
             itemView.tv_category.text = booDetail!!.category
             itemView.tv_des.text = booDetail!!.description
-            itemView.tv_score.text = booDetail!!.score
+            itemView.tv_score.text = booDetail?.score
             itemView.sdv_img.setImageURI(booDetail!!.imgUrl)
+            itemView.tv_revered.setOnClickListener({
+                revered()
+                if(itemView.tv_revered.text == "正序")
+                    itemView.tv_revered.text = "倒序"
+                else
+                    itemView.tv_revered.text = "正序"
+            })
         }
     }
 

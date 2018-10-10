@@ -38,13 +38,12 @@
 
                 <TextView
                     android:id="@+id/tv_score"
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
-                    tools:text="9.0分"
-                    android:textSize="14sp"
-                    android:textColor="#99ffffff"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    />
+                    android:textColor="#99ffffff"
+                    android:textSize="14sp"
+                    tools:text="9.0分" />
                 <TextView
                     android:id="@+id/tv_category"
                     android:layout_height="wrap_content"
@@ -66,15 +65,58 @@
             </LinearLayout>
 
         </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#66ffffff"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        />
     <TextView
         android:id="@+id/tv_des"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         tools:text="简介"
-        android:textSize="14sp"
+        android:textSize="12sp"
+        android:lineSpacingMultiplier="1.2"
         android:textColor="#ffffff"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingBottom="16dp"
         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#66ffffff"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        />
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="5dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="目录"
+            android:textColor="#ffffff"
+            />
+        <android.support.v4.widget.Space
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="1dp" />
+        <TextView
+            android:id="@+id/tv_revered"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正序"
+            android:textColor="#ffffff"
+            />
+    </LinearLayout>
 </LinearLayout>

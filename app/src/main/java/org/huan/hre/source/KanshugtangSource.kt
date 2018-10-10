@@ -130,7 +130,7 @@ class KanshugtangSource:Source {
                   val burden = doc.select("p.subcontent");
                   //对于一个元素中的文本，可以使用Element.text()方法
                   Log.i("mytag", "burden:" + burden.get(1).text());*/
-                emitter.onNext(BookDetailResp(null,menus))
+                emitter.onNext(BookDetailResp(null,menus.toList()))
                 emitter.onComplete()
             } catch (e: Exception) {
                 emitter.onError(e)
@@ -156,7 +156,7 @@ class KanshugtangSource:Source {
                         temp = temp.replace(" ".toRegex(), "").replace(" ".toRegex(), "")
                         if (temp.isNotEmpty()) {
                         content.append("\u3000\u3000" + temp)
-                            content.append(temp)
+//                            content.append(temp)
                             if (i < contentEs.size - 1) {
                                 content.append("\r\n\r")
                             }
