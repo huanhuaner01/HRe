@@ -5,6 +5,7 @@ import android.app.SearchManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.activity_history.*
 import kotlinx.android.synthetic.main.fragment_book_list.view.*
 import org.huan.hre.R
 import org.huan.hre.realm.DBSearch
@@ -23,6 +25,7 @@ import org.huan.hre.source.Love
 import org.huan.hre.source.Sort
 import org.huan.hre.source.SourceFactory
 import org.huan.hre.view.adapter.BookListAdapter
+import org.huan.hre.view.adapter.ItemTouchHelperCallback
 import org.huan.hre.view.adapter.LoveAdapter
 
 /**
@@ -63,6 +66,12 @@ class LoveFragment : Fragment() {
             view.sr.setOnRefreshListener { requestData() }
             view.sr.setEnableLoadMore(false)
         }
+        //先实例化Callback
+        val callback = ItemTouchHelperCallback(mAdapter!!)
+        //用Callback构造ItemtouchHelper
+        val touchHelper = ItemTouchHelper(callback)
+        //调用ItemTouchHelper的attachToRecyclerView方法建立联系
+        touchHelper.attachToRecyclerView(view.rv)
         return view
     }
 

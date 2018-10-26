@@ -10,25 +10,31 @@ import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
+import org.huan.hre.realm.ChapterRO
+import org.huan.hre.realm.RealmManager
+import org.huan.hre.source.ChapterContentResp
 import org.huan.hre.source.SourceFactory
 import org.huan.hre.util.getPage
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var url :String
     private lateinit var web :String
+    private lateinit var bookName :String
+    private lateinit var chapterName :String
     private lateinit var content :String
     private var currentPage:Int = 0
     private lateinit var pages :IntArray
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
         url = intent.getStringExtra("url")
         web = intent.getStringExtra("web")
+        bookName = intent.getStringExtra("bookName")
+
         SourceFactory.Create(web).getDetail(url)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(object : Observer<String> { // 第三步：订阅
+                .subscribe(object : Observer<ChapterContentResp> { // 第三步：订阅
 
                     // 第二步：初始化Observer
                     private var i: Int = 0
@@ -38,10 +44,11 @@ class DetailActivity : AppCompatActivity() {
                         mDisposable = d
                     }
 
-                    override fun onNext(t: String) {
+                    override fun onNext(t: ChapterContentResp) {
 //                        Log.i("huan","content : "+t)
-
-                        initPage(t)
+                        chapterName = t.chapterName
+                        initPage(t.chapterContent)
+                        saveChapter()
 //                        detail_tv.text = t
                     }
 
@@ -54,6 +61,42 @@ class DetailActivity : AppCompatActivity() {
                     }
                 })
 
+    }
+    private fun saveChapter(){
+        val chapterRO = ChapterRO()
+        chapterRO.web = web
+        chapterRO.url = url
+        chapterRO.name = chapterName
+        chapterRO.bookName = bookName
+        chapterRO.time = System.currentTimeMillis()
+        RealmManager.insertOrUpdate(chapterRO)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<RealmManager.DBResult<Any>> { // 第三步：订阅
+
+                    // 第二步：初始化Observer
+                    private var i: Int = 0
+                    private var mDisposable: Disposable? = null
+
+                    override fun onSubscribe(@NonNull d: Disposable) {
+                        mDisposable = d
+                    }
+
+                    override fun onNext(t: RealmManager.DBResult<Any>) {
+//                        Log.i("huan","content : "+t)
+
+//                        initPage(t.chapterContent)
+//                        detail_tv.text = t
+                    }
+
+                    override fun onError(@NonNull e: Throwable) {
+                        Log.e("huan", "onError : value : " + e.message + "\n")
+                    }
+
+                    override fun onComplete() {
+                        Log.e("huan", "onComplete" + "\n")
+                    }
+                })
     }
     private fun initPage(t:String){
         content = t

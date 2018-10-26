@@ -1,5 +1,6 @@
 package org.huan.hre.source
 
+import android.text.TextUtils
 import android.util.Log
 import io.reactivex.Observable
 import org.jsoup.Jsoup
@@ -230,10 +231,13 @@ class MiaoShuFangSource : Source {
         }
     }
 
-    override fun getDetail(url:String): Observable<String> {
+    override fun getDetail(url:String): Observable<ChapterContentResp> {
         //创建一个上游 Observable：
-        return io.reactivex.Observable.create<String> { emitter ->
+        return io.reactivex.Observable.create<ChapterContentResp> { emitter ->
             val content = StringBuilder()
+            var chapterName =""
+            var prev = ""
+            var next = ""
             try {
 
                 if(!url.isEmpty()) {
@@ -252,10 +256,19 @@ class MiaoShuFangSource : Source {
                             }
                         }
                     }
+                    chapterName = doc.select("span.title").text()
+                    prev = doc.getElementById("pt_prev").attr("href")
+                    next = doc.getElementById("pt_next").attr("href")
                 }
+                if(!TextUtils.isEmpty(chapterName))
+                    chapterName = chapterName.split('\u00A0')[0]
+                if(prev == null || !prev.endsWith(".html"))
+                    prev = ""
 
+                if(next == null|| !next.endsWith(".html"))
+                    next = ""
 
-                emitter.onNext(content.toString())
+                emitter.onNext(ChapterContentResp(chapterName,content.toString(),next,prev))
                 emitter.onComplete()
             } catch (e: Exception) {
                 emitter.onError(e)

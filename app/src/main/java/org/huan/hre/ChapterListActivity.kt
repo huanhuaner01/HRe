@@ -50,6 +50,7 @@ class ChapterListActivity : AppCompatActivity() {
         sr_chapter.setEnableLoadMore(false)
         sr_chapter.autoRefresh()
 
+        getLatestChapter()
     }
     private fun getLatestChapter(){
         DBSearch.searchLatestChapter(web,title)
@@ -173,6 +174,11 @@ class ChapterListActivity : AppCompatActivity() {
         love.time = System.currentTimeMillis()
         love.web = web
         love.imgUrl = book!!.imgUrl
+        love.author = book!!.author
+        love.category = book!!.category
+        love.description = book!!.description
+        love.score = book!!.score
+
         val chapter = ChapterRO()
         if(latestChapter !=null){
             chapter.bookName = latestChapter!!.bookName

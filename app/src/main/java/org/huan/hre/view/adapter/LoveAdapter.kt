@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.item_love.view.*
 import org.huan.hre.ChapterListActivity
 import org.huan.hre.R
 import org.huan.hre.realm.HistoryRO
+import org.huan.hre.realm.LoveRO
 import org.huan.hre.realm.RealmManager
 import org.huan.hre.source.Love
 import java.util.*
@@ -45,16 +46,17 @@ class LoveAdapter(val mContext: Context) : RecyclerView.Adapter<BaseViewHolder>(
     inner class LoveViewHolder(itemView: View):BaseViewHolder(itemView){
         override fun onBind() {
             val data = listData[position]
-            itemView.item_love_title.text = data.bookName
+            itemView.item_love_title.text = data.book.title
             itemView.item_love_chapter.text = data.latestChapterName
-            if(data.imgUrl!=null) {
-                itemView.item_love_img.setImageURI(data.imgUrl)
+            if(data.book.imgUrl!=null) {
+                itemView.item_love_img.setImageURI(data.book.imgUrl)
             }
             itemView.setOnClickListener {
                 val i = Intent(this@LoveAdapter.mContext, ChapterListActivity::class.java)
-                i.putExtra("book_url",data.pathUrl)
-                i.putExtra("web",data.web)
-                i.putExtra("title",data.bookName)
+                i.putExtra("book_url",data.book.url)
+                i.putExtra("web",data.book.web)
+                i.putExtra("title",data.book.title)
+                i.putExtra("book",data.book)
                 this@LoveAdapter.mContext.startActivity(i)
             }
         }
@@ -69,7 +71,7 @@ class LoveAdapter(val mContext: Context) : RecyclerView.Adapter<BaseViewHolder>(
 
     override fun onItemDissmiss(position: Int) {
         //移除数据
-        RealmManager.delete(HistoryRO::class.java,"bookName",listData[position].bookName)
+        RealmManager.delete(LoveRO::class.java,"bookName",listData[position].book.title)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(object : Observer<RealmManager.DBResult<Any>> {

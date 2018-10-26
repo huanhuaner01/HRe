@@ -140,9 +140,9 @@ class KanshugtangSource:Source {
         }
     }
 
-    override fun getDetail(url: String): Observable<String> {
+    override fun getDetail(url: String): Observable<ChapterContentResp> {
         //创建一个上游 Observable：
-        return io.reactivex.Observable.create<String> { emitter ->
+        return io.reactivex.Observable.create<ChapterContentResp> { emitter ->
             val content = StringBuilder()
             try {
 
@@ -165,7 +165,7 @@ class KanshugtangSource:Source {
                 }
 
 
-                emitter.onNext(content.toString())
+                emitter.onNext(ChapterContentResp("",content.toString(),"",""))
                 emitter.onComplete()
             } catch (e: Exception) {
                 emitter.onError(e)

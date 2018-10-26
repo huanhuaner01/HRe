@@ -3,6 +3,7 @@ package org.huan.hre.realm
 import io.reactivex.Observable
 import io.realm.Realm
 import io.realm.Sort
+import org.huan.hre.source.Book
 import org.huan.hre.source.Chapter
 import org.huan.hre.source.History
 import org.huan.hre.source.Love
@@ -32,7 +33,18 @@ object DBSearch {
                 try {
                     val datas = arrayListOf<Love>()
                     for(item in realm.where(LoveRO::class.java).sort("time",Sort.DESCENDING).findAll()){
-                        datas.add(Love(item.bookName,item.pathUrl,item.imgUrl,item.lotestChapter?.name,item.web))
+
+                        datas.add(Love(Book(
+                                item.web,
+                                "",
+                                item.imgUrl,
+                                item.bookName,
+                                item.author,
+                                item.description,
+                                item.score,
+                                item.pathUrl,
+                                item.category
+                                ),item.lotestChapter?.name))
                     }
                     it.onNext(RealmManager.DBResult(200, "", datas))
                     it.onComplete()
@@ -42,6 +54,7 @@ object DBSearch {
                     realm.close()
                 }
             }
+
     fun searchLatestChapter(web:String,bookName:String): Observable<RealmManager.DBResult<Chapter>> =
             Observable.create<RealmManager.DBResult<Chapter>> {
                 val realm = Realm.getDefaultInstance()
@@ -60,4 +73,6 @@ object DBSearch {
                     realm.close()
                 }
             }
+
+
 }

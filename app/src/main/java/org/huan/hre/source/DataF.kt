@@ -18,7 +18,7 @@ data class BookDetailResp(var book:Book?=null,var chapterlist:List<Menu>)
 
 data class History(val bookName:String,val pathUrl:String,val time: Long,val web:String)
 
-data class Love(val bookName: String,val pathUrl: String,val imgUrl: String?,val latestChapterName:String?,val web:String)
+data class Love(val book :Book,val latestChapterName:String?)
 
 data class  Chapter (
     val name:String,
@@ -28,3 +28,5 @@ data class  Chapter (
     val web:String,
     val time: Long = 0
 )
+
+data class ChapterContentResp(val chapterName:String,val chapterContent:String,val nextUrl: String,val backUrl:String )

@@ -5,8 +5,8 @@ import io.realm.annotations.PrimaryKey
 
 open class ChapterRO: RealmObject() {
     @PrimaryKey
+    var id:String = ""
     var name:String = ""
-
     var url:String = ""
     var status: Long = 0
     var bookName:String = ""

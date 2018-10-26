@@ -9,7 +9,10 @@ open class LoveRO: RealmObject()  {
     var imgUrl:String = ""
     var pathUrl:String = ""
     var time: Long = 0
-    var lotestChapter:ChapterRO?=null
     var status:Int = 0
     var web:String = ""
+    var author:String=""
+    var description: String=""
+    var score:String=""
+    var category:String = ""
 }

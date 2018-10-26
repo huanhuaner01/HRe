@@ -76,12 +76,18 @@ class MainActivity : AppCompatActivity() {
         }
         menu?.findItem(R.id.menu_source_1)?.setOnMenuItemClickListener {
             web = KanshugtangSource.BASE_URL
+            vp_main.adapter = null
+            vp_main.removeAllViews()
+            vp_main.removeAllViewsInLayout()
             getSorts()
             return@setOnMenuItemClickListener true
         }
 
         menu?.findItem(R.id.menu_source_2)?.setOnMenuItemClickListener {
             web = MiaoShuFangSource.BASE_URL
+            vp_main.adapter = null
+            vp_main.removeAllViews()
+            vp_main.removeAllViewsInLayout()
             getSorts()
             return@setOnMenuItemClickListener true
         }
